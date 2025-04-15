@@ -1,0 +1,67 @@
+*,
+html {
+  padding: 0;
+  margin: 0;
+  font-family: "Inter";
+}
+
+:root {
+  --color-primary: #4318ff;
+  --color-primary-gradient-start: #9181f4;
+  --color-primary-gradient-end: #5038ed;
+
+  --color-background: #f0edff;
+
+  --color-white: #fff;
+}
+
+#login .container-fluid {
+  height: 100vh;
+  background-color: var(--color-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#login .login-card {
+  width: 416px;
+  height: 557px;
+  background-color: var(--color-white);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.gradient-btn {
+  background: linear-gradient(
+    to right,
+    var(--color-primary-gradient-start),
+    var(--color-primary-gradient-end)
+  );
+  color: #fff;
+  border: none;
+}
+
+.gradient-btn:hover {
+  opacity: 0.9;
+}
+
+.social-btn {
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+  width: 100%;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.social-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.social-btn img {
+  width: 20px;
+}
