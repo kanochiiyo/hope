@@ -82,23 +82,23 @@ function isLogged()
   return false;
 }
 
-// function isAdmin()
-// {
-//   $connection = getConnection();
+function isAdmin()
+{
+  $connection = getConnection();
 
-//   if (isset($_SESSION['username'])) {
-//     $username = $_SESSION['username'];
+  if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
 
-//     $result = $connection->query("SELECT * FROM users WHERE username = '$username'");
+    $result = $connection->query("SELECT * FROM users WHERE username = '$username'");
 
-//     $userData = $result->fetch_object();
+    $userData = $result->fetch_object();
 
-//     if ($userData->isAdmin === "1") {
-//       return true;
-//     }
-//   }
-//   return false;
-// }
+    if ($userData->role === "1") {
+      return true;
+    }
+  }
+  return false;
+}
 
 function logout(): void
 {

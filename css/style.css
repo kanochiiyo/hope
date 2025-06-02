@@ -9,9 +9,7 @@ html {
   --color-primary: #4318ff;
   --color-primary-gradient-start: #9181f4;
   --color-primary-gradient-end: #5038ed;
-
   --color-background: #f0edff;
-
   --color-white: #fff;
 }
 
@@ -64,4 +62,43 @@ html {
 
 .social-btn img {
   width: 20px;
+}
+
+#userPage {
+  height: 100vh;
+  padding: 0;
+  background-color: var(--color-background);
+}
+
+#sidebar {
+  height: 100vh;
+  width: 290px;
+  background-color: var(--color-white);
+}
+
+#sidebar .logo-section {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-list {
+  padding: 20px;
+}
+
+.sidebar-list .nav-item {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar-list .nav-item.active {
+  background-color: var(--color-primary);
+  border-radius: 8px; 
+  color: var(--color-white);
+}
+
+.sidebar-list .nav-item:hover {
+  background-color: var(--color-primary); 
+  border-radius: 8px; 
+  color: var(--color-white); 
 }
