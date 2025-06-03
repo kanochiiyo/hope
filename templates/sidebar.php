@@ -6,25 +6,34 @@
 
     <div class="sidebar-list">
         <?php if (isAdmin()) { ?>
-            <div class="nav-item p-2 m-2 fw-bold">
-                <span>Dashboard</span>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('dashboard.php') ?>"
+                onclick="location.href='/hope/dashboard.php'">
+                Dashboard
+            </div>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('orders.php') ?>"
+                onclick="location.href='/hope/orders.php'">
+                Orders
             </div>
 
-            <div class="nav-item p-2 m-2 fw-bold">
-                <span>Requested Orders</span>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('req_orders.php') ?>"
+                onclick="location.href='/hope/req_orders.php'">
+                Requested Order
             </div>
         <?php } ?>
-        
-        <div class="nav-item p-2 m-2 fw-bold active">
-            <span>Orders</span>
-        </div>
-        
-        <div class="nav-item p-2 m-2 fw-bold">
-            <span>Create Orders</span>
-        </div>
 
-        <div class="nav-item p-2 m-2 fw-bold">
-            <span><a href="/hope/logout.php" class="text-decoration-none text-reset">Log Out</a></span>
+        <?php if (!isAdmin()) { ?>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('index.php') ?>" onclick="location.href='/hope/index.php'">
+                Orders
+            </div>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('create_orders.php') ?>"
+                onclick="location.href='/hope/create_orders.php'">
+                Create Orders
+            </div>
+        <?php } ?>
+
+        <!-- SEMENTARA DI SINI DULU LOGOUTNYA -->
+        <div class="nav-item p-2 m-2 fw-bold <?= isActive('logout.php') ?>" onclick="location.href='/hope/logout.php'">
+            Log Out
         </div>
     </div>
 </div>
