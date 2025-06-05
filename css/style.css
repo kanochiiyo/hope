@@ -105,13 +105,13 @@ html {
   color: var(--color-white);
 }
 
-/* Table */
+
 #mainContent .orderTable {
   font-size: 14px;
   font-weight: 500;
 }
 
-/* Status Tag */
+
 .status-completed {
   background-color: #e6f8f3;
   border: 1px solid #00b087;
@@ -131,7 +131,7 @@ html {
   border-radius: 50px;
   font-size: 12px;
   font-weight: 500;
-  padding: 3px 15px;
+  padding: 5px 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s;
 }
@@ -141,7 +141,7 @@ html {
   color: darkblue;
 }
 
-/* Pagination */
+
 .pagination .page-link {
   color: #404b52;
   background-color: #f5f5f5;
@@ -162,4 +162,46 @@ html {
 .pagination .active .page-link {
   background-color: var(--color-primary);
   color: var(--color-white);
+}
+
+.submit-btn {
+  background-color: var(--color-primary); 
+  color: var(--color-white);              
+  padding: 12px 32px;        
+  border: none;              
+  border-radius: 999px;      
+  font-size: 16px;           
+  font-weight: 500;          
+  cursor: pointer;           
+  transition: background-color 0.3s ease; 
+}
+
+.submit-btn:hover {
+  background-color: var(--color-white); 
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary); 
+}
+
+.back-btn {
+  background-color: var(--color-white); 
+  color: var(--color-primary);              
+  padding: 12px 32px;        
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;      
+  font-size: 16px;           
+  font-weight: 500;          
+  cursor: pointer;           
+  transition: background-color 0.3s ease; 
+}
+
+.back-btn:hover {
+  background-color: var(--color-primary); 
+  color: var(--color-white);  
+            
+}
+
+.form-payment-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-primary);
 }
