@@ -1,0 +1,78 @@
+<?php
+session_start();
+
+require_once __DIR__ . "/../functions/authentication.php";
+require_once __DIR__ . "/../functions/functions.php";
+
+$connection = getConnection();
+
+if (!isLogged()) {
+    header("Location:/../login.php");
+}
+
+include __DIR__ . "/../templates/header.php";
+?>
+
+<div class="container-fluid d-flex" id="createOrder">
+    <?php include(__DIR__ . "/../templates/sidebar.php"); ?>
+
+    <div class="main-content col-10" id="mainContent">
+        <!-- Tabel Konfirmasi Proyek -->
+        <div class="card m-5 p-3 border-0 shadow rounded-4">
+            <div class="card-body">
+                <div class="table-responsive detailOrderTable">
+                    <div class="header">
+                        <h3 class="fw-bold">Detail Orders #666</h3>
+                    </div>
+
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Project Name</td>
+                                <td>:</td>
+                                <td>Pintu Gerbang Warna Pink</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Quantity</td>
+                                <td>:</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Order Date</td>
+                                <td>:</td>
+                                <td>02/04/2025</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Est. Completion Date</td>
+                                <td>:</td>
+                                <td>02/04/2025</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Price</td>
+                                <td>:</td>
+                                <td>Rp 100000</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Shipping Address</td>
+                                <td>:</td>
+                                <td>Tokyo</td>
+                            </tr>
+                            <tr>
+                                <td class="row-label" style="width: 250px">Description</td>
+                                <td>:</td>
+                                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quasi officiis
+                                    facilis blanditiis, rem dolor, nobis quidem ullam ad nesciunt optio esse amet quia
+                                    minima soluta accusantium, sit vel officia?</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mb-3 row d-flex justify-content-between" style="margin: 0px 1px;">
+                        <a href="index.php" class="back-btn col-2 text-decoration-none text-center">Back</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
