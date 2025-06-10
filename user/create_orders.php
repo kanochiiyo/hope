@@ -3,8 +3,13 @@ session_start();
 
 require_once __DIR__ . "/../functions/authentication.php";
 require_once __DIR__ . "/../functions/functions.php";
+require_once __DIR__ . "/../functions/orderFunctions.php";
 
 $connection = getConnection();
+
+if (isset($_POST["createOrder"])) {
+  $result = createOrder($_POST);
+}
 
 if (!isLogged()) {
     header("Location:/../login.php");
@@ -23,7 +28,7 @@ include __DIR__ . "/../templates/header.php";
                     <h3 class="fw-bold">Create Orders</h3>
                 </div>
                 <div class="order-form">
-                    <form action="" method="post" class="border-0">
+                    <form method="post" class="border-0">
                         <div class="mb-3 row">
                             <label for="inputName" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
@@ -63,14 +68,14 @@ include __DIR__ . "/../templates/header.php";
                         <div class="mb-3 row">
                             <label for="inputDesc" class="col-sm-3 col-form-label">Desciption</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" placeholder="Description" id="inputDesc"
+                                <textarea class="form-control" placeholder="Description" id="inputDesc" name="description"
                                     style="height: 100px"></textarea>
                             </div>
                         </div>
 
                         <div class="mb-3 row d-flex justify-content-between" style="margin: 0px 1px;">
                             <input type="submit" class="back-btn col-2" value="Back">
-                            <input type="submit" class="submit-btn col-2" value="Submit">
+                            <input type="submit" class="submit-btn col-2" value="Submit" name="createOrder" >
                         </div>
 
                     </form>
