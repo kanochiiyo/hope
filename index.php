@@ -10,7 +10,8 @@ if (!isLogged()) {
   header("Location:login.php");
 }
 
-include __DIR__ . "/templates/header.php";
+include __DIR__ . "/../templates/header.php";
+include __DIR__ . "/../templates/modal.php";
 ?>
 
 <div class="container-fluid d-flex" id="userPage">
@@ -50,8 +51,10 @@ include __DIR__ . "/templates/header.php";
                 <td class="text-center">1/3/2025</td>
                 <td class="text-center">Rp 120000</td>
                 <td class="text-center">
-                  <p class="detail-btn d-inline"><a class="text-reset text-decoration-none" href="payment.php">Confirm</a></p>
-                </td> <!-- kalo pake button uk nya beda, nnti dicari tau -->
+                  <button type="button" class="detail-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Confirm
+                  </button>
+                </td>
               </tr>
               <tr>
                 <td class="text-center">93232</td>
@@ -61,7 +64,9 @@ include __DIR__ . "/templates/header.php";
                 <td class="text-center">1/3/2025</td>
                 <td class="text-center">Rp 120000</td>
                 <td class="text-center">
-                  <p class="detail-btn d-inline"><a class="text-reset text-decoration-none" href="payment.php">Confirm</a></p>
+                  <button type="button" class="detail-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Confirm
+                  </button>
                 </td>
               </tr>
           </table>
@@ -117,7 +122,8 @@ include __DIR__ . "/templates/header.php";
                 <td class="text-center">
                   <p class="status-completed d-inline">Completed</p< /td>
                 <td class="text-center">
-                  <p class="detail-btn d-inline">Detail</p>
+                  <p class="detail-btn d-inline"><a class="text-reset text-decoration-none"
+                      href="detail_orders.php">Detail</a></p>
                 </td> <!-- kalo pake button uk nya beda, nnti dicari tau -->
               </tr>
               <tr>
@@ -129,7 +135,8 @@ include __DIR__ . "/templates/header.php";
                 <td class="text-center">
                   <p class="status-completed d-inline">Completed</p< /td>
                 <td class="text-center">
-                  <p class="detail-btn d-inline">Detail</p>
+                  <p class="detail-btn d-inline"><a class="text-reset text-decoration-none"
+                      href="detail_orders.php">Detail</a></p>
                 </td>
               </tr>
           </table>

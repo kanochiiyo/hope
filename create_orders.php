@@ -25,21 +25,21 @@ include __DIR__ . "/templates/header.php";
                 <div class="order-form">
                     <form action="" method="post" class="border-0">
                         <div class="mb-3 row">
-                            <label for="inputName" class="col-sm-3 col-form-label">Name</label>
+                            <label for="inputName" class="col-sm-3 col-form-label label">Name</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputName" name="custName"
                                     placeholder="Input Name">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPhone" class="col-sm-3 col-form-label">Phone Number</label>
+                            <label for="inputPhone" class="col-sm-3 col-form-label label">Phone Number</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control" id="inputPhone" name="phoneNumber"
                                     placeholder="Input Phone Number">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputProjectName" class="col-sm-3 col-form-label">Project Name</label>
+                            <label for="inputProjectName" class="col-sm-3 col-form-label label">Project Name</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputProjectName" name="projectName"
                                     placeholder="Input Project Name">
@@ -47,21 +47,21 @@ include __DIR__ . "/templates/header.php";
                         </div>
                         <!-- slect projct type -->
                         <div class="mb-3 row">
-                            <label for="inputQuantity" class="col-sm-3 col-form-label">Quantity</label>
+                            <label for="inputQuantity" class="col-sm-3 col-form-label label">Quantity</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control" id="inputQuantity" name="quantity"
                                     placeholder="Input Quantity">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputShippingAddres" class="col-sm-3 col-form-label">Shipping Address</label>
+                            <label for="inputShippingAddres" class="col-sm-3 col-form-label label">Shipping Address</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="inputShippingAddres" name="shippingAddress"
                                     placeholder="Input Shpping Address">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputDesc" class="col-sm-3 col-form-label">Desciption</label>
+                            <label for="inputDesc" class="col-sm-3 col-form-label label">Desciption</label>
                             <div class="col-sm-9">
                                 <textarea class="form-control" placeholder="Description" id="inputDesc"
                                     style="height: 100px"></textarea>
@@ -69,8 +69,8 @@ include __DIR__ . "/templates/header.php";
                         </div>
 
                         <div class="mb-3 row d-flex justify-content-between" style="margin: 0px 1px;">
-                            <input type="submit" class="back-btn col-2" value="Back">
-                            <input type="submit" class="submit-btn col-2" value="Submit">
+                            <a href="index.php" class="back-btn col-2 text-decoration-none text-center">Back</a>
+                            <input type="submit" class="submit-btn col-2" value="Submit" name="createOrder">
                         </div>
 
                     </form>
