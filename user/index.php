@@ -7,33 +7,27 @@ require_once __DIR__ . "/../functions/functions.php";
 $connection = getConnection();
 
 if (!isLogged()) {
-  header("Location:/../login.php");
+  header("Location:/hope/login.php");
 }
 
 include __DIR__ . "/../templates/header.php";
 include __DIR__ . "/../templates/modal.php";
-// fix
 ?>
 
 <div class="container-fluid d-flex" id="userPage">
   <?php include __DIR__ . "/../templates/sidebar.php"; ?>
 
   <div class="main-content col-10" id="mainContent">
-    <!-- Tabel Konfirmasi Proyek -->
     <div class="card m-5 p-3 border-0 shadow rounded-4">
       <div class="card-body">
         <div class="table-responsive orderTable">
           <div class="header d-flex justify-content-between">
             <h3 class="fw-bold">All Orders</h3>
-            <!-- <input type="text">
-          search -->
-
           </div>
 
           <table class="table table-borderless">
             <thead>
               <tr>
-                <!-- ganti pake looping nanti -->
                 <td class="text-muted text-center">Order ID</td>
                 <td class="text-muted text-center">Project Name</td>
                 <td class="text-muted text-center">Quantity</td>
@@ -51,8 +45,8 @@ include __DIR__ . "/../templates/modal.php";
                 <td class="text-center">12/12/2024</td>
                 <td class="text-center">1/3/2025</td>
                 <td class="text-center">Rp 120000</td>
-                <td class="text-center">
-                  <button type="button" class="detail-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <td class="text-center"> <button type="button" class="action-btn" data-bs-toggle="modal"
+                    data-bs-target="#userModal">
                     Confirm
                   </button>
                 </td>
@@ -64,12 +58,13 @@ include __DIR__ . "/../templates/modal.php";
                 <td class="text-center">12/12/2024</td>
                 <td class="text-center">1/3/2025</td>
                 <td class="text-center">Rp 120000</td>
-                <td class="text-center">
-                  <button type="button" class="detail-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <td class="text-center"> <button type="button" class="action-btn" data-bs-toggle="modal"
+                    data-bs-target="#userModal">
                     Confirm
                   </button>
                 </td>
               </tr>
+            </tbody>
           </table>
           <hr>
         </div>
@@ -89,21 +84,16 @@ include __DIR__ . "/../templates/modal.php";
       </div>
     </div>
 
-    <!-- Tabel Riwayat Proyek -->
     <div class="card m-5 p-3 border-0 shadow rounded-4">
       <div class="card-body">
         <div class="table-responsive orderTable">
           <div class="header d-flex justify-content-between">
             <h3 class="fw-bold">All Orders</h3>
-            <!-- <input type="text">
-          search -->
-
           </div>
 
           <table class="table table-borderless">
             <thead>
               <tr>
-                <!-- ganti pake looping nanti -->
                 <td class="text-muted text-center">Order ID</td>
                 <td class="text-muted text-center">Project Name</td>
                 <td class="text-muted text-center">Quantity</td>
@@ -120,12 +110,13 @@ include __DIR__ . "/../templates/modal.php";
                 <td class="text-center">1</td>
                 <td class="text-center">12/12/2024</td>
                 <td class="text-center">1/3/2025</td>
-                <td class="text-center">
-                  <p class="status-completed d-inline">Completed</p< /td>
-                <td class="text-center">
-                  <p class="detail-btn d-inline"><a class="text-reset text-decoration-none"
-                      href="detail_orders.php">Detail</a></p>
-                </td> <!-- kalo pake button uk nya beda, nnti dicari tau -->
+                <td class="text-center align-middle">
+                  <p class="status-completed">Completed</p>
+                </td>
+                <td class="text-center align-middle">
+                  <p class="action-btn"><a class="text-reset text-decoration-none" href="detail_orders.php">Detail</a>
+                  </p>
+                </td>
               </tr>
               <tr>
                 <td class="text-center">93232</td>
@@ -133,13 +124,15 @@ include __DIR__ . "/../templates/modal.php";
                 <td class="text-center">1</td>
                 <td class="text-center">12/12/2024</td>
                 <td class="text-center">1/3/2025</td>
-                <td class="text-center">
-                  <p class="status-completed d-inline">Completed</p< /td>
-                <td class="text-center">
-                  <p class="detail-btn d-inline"><a class="text-reset text-decoration-none"
-                      href="detail_orders.php">Detail</a></p>
+                <td class="text-center align-middle">
+                  <p class="status-completed">Completed</p>
+                </td>
+                <td class="text-center align-middle">
+                  <p class="action-btn"><a class="text-reset text-decoration-none" href="detail_orders.php">Detail</a>
+                  </p>
                 </td>
               </tr>
+            </tbody>
           </table>
           <hr>
         </div>
@@ -148,8 +141,8 @@ include __DIR__ . "/../templates/modal.php";
           <nav aria-label="Page navigation">
             <ul class="pagination">
               <li class="page-item mx-1"><a class="page-link" href="#">&lt;</a></li>
-              <li class="page-item mx-1 active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item mx-1"><a class="page-link" href="#">2</a></li>
+              <li class="page-item mx-1"><a class="page-link" href="#">1</a></li>
+              <li class="page-item mx-1 active"><a class="page-link" href="#">2</a></li>
               <li class="page-item mx-1"><a class="page-link" href="#">3</a></li>
               <li class="page-item mx-1"><a class="page-link" href="#">4</a></li>
               <li class="page-item mx-1"><a class="page-link" href="#">&gt;</a></li>
@@ -158,7 +151,6 @@ include __DIR__ . "/../templates/modal.php";
         </div>
       </div>
     </div>
-
   </div>
 </div>
 

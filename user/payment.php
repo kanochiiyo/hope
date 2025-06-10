@@ -7,13 +7,13 @@ require_once __DIR__ . "/../functions/functions.php";
 $connection = getConnection();
 
 if (!isLogged()) {
-    header("Location:/../login.php");
+    header("Location:/hope/login.php");
 }
 
 include __DIR__ . "/../templates/header.php";
 ?>
 
-<div class="container-fluid d-flex" id="createOrder">
+<div class="container-fluid d-flex" id="payment">
     <?php include(__DIR__ . "/../templates/sidebar.php"); ?>
 
     <div class="main-content col-10" id="mainContent">
@@ -80,6 +80,7 @@ include __DIR__ . "/../templates/header.php";
         </div>
     </div>
 </div>
+
 <?php
 include __DIR__ . "/../templates/footer.php";
 ?>

@@ -6,17 +6,17 @@
 
     <div class="sidebar-list">
         <?php if (isAdmin()) { ?>
-            <div class="nav-item p-2 m-2 fw-bold <?= isActive('dashboard.php') ?>"
-                onclick="location.href='/hope/dashboard.php'">
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('/hope/admin/index.php') ?>"
+                onclick="location.href='/hope/admin/index.php'">
                 Dashboard
             </div>
-            <div class="nav-item p-2 m-2 fw-bold <?= isActive('orders.php') ?>"
-                onclick="location.href='/hope/orders.php'">
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('/hope/admin/orders.php') ?>"
+                onclick="location.href='/hope/admin/orders.php'">
                 Orders
             </div>
 
-            <div class="nav-item p-2 m-2 fw-bold <?= isActive('req_orders.php') ?>"
-                onclick="location.href='/hope/req_orders.php'">
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('/hope/admin/req_orders.php') ?>"
+                onclick="location.href='/hope/admin/req_orders.php'">
                 Requested Order
             </div>
         <?php } ?>
