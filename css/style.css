@@ -2,7 +2,7 @@
 html {
   padding: 0;
   margin: 0;
-  overflow-x: hidden;
+  overflow: hidden !important;
   font-family: "Poppins";
 }
 
@@ -12,6 +12,7 @@ html {
   --color-primary-gradient-end: #5038ed;
   --color-background: #f0edff;
   --color-white: #fff;
+  --color-text: #2b3674;
 }
 
 #login .container-fluid {
@@ -66,7 +67,12 @@ html {
 }
 
 #userPage,
-#createOrder {
+#createOrder,
+#detailOrders,
+#payment,
+#adminPage,
+#adminOrders,
+#reqOrders {
   height: 100vh;
   padding: 0;
   background-color: var(--color-background);
@@ -94,37 +100,72 @@ html {
 }
 
 .sidebar-list .nav-item.active {
-  background-color: var(--color-primary);
+  background: linear-gradient(
+    to right,
+    var(--color-primary-gradient-start),
+    var(--color-primary-gradient-end)
+  );
   border-radius: 8px;
   color: var(--color-white);
 }
 
 .sidebar-list .nav-item:hover {
-  background-color: var(--color-primary);
+  background: linear-gradient(
+    to right,
+    var(--color-primary-gradient-start),
+    var(--color-primary-gradient-end)
+  );
   border-radius: 8px;
   color: var(--color-white);
 }
-
 
 #mainContent .orderTable {
   font-size: 14px;
   font-weight: 500;
 }
 
-
-.status-completed {
-  background-color: #e6f8f3;
-  border: 1px solid #00b087;
-  color: #008767;
+.status-completed,
+.status-ongoing,
+.status-pending,
+.status-finishing {
   padding: 5px 15px;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 500;
   text-align: center;
   opacity: 1;
+  display: inline-block;
+  width: 105px;
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle;
 }
 
-.detail-btn {
+.status-completed {
+  background-color: #e6f8f3;
+  border: 1px solid #00b087;
+  color: #008767;
+}
+
+.status-ongoing {
+  background-color: #fff2e6;
+  border: 1px solid #fd7e14;
+  color: #fd7e14;
+}
+
+.status-pending {
+  background-color: #ffebee;
+  border: 1px solid #df0404;
+  color: #df0404;
+}
+
+.status-finishing {
+  background-color: #ebf5fb;
+  border: 1px solid #3498db;
+  color: #3498db;
+}
+
+.action-btn {
   color: blue;
   background-color: rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(0, 0, 255, 0.5);
@@ -134,13 +175,19 @@ html {
   padding: 5px 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s;
+  text-align: center;
+  display: inline-block;
+  width: 120px;
+  box-sizing: border-box;
+  margin: 0;
+  vertical-align: middle !important;
 }
-.detail-btn:hover {
+
+.action-btn:hover {
   border-color: blue;
   background-color: white;
   color: darkblue;
 }
-
 
 .pagination .page-link {
   color: #404b52;
@@ -165,51 +212,78 @@ html {
 }
 
 .submit-btn {
-  background-color: var(--color-primary); 
-  color: var(--color-white);              
-  padding: 12px 32px;        
-  border: none;              
-  border-radius: 999px;      
-  font-size: 16px;           
-  font-weight: 500;          
-  cursor: pointer;           
-  transition: background-color 0.3s ease; 
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 12px 32px !important;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: var(--color-white); 
+  background-color: var(--color-white);
   color: var(--color-primary);
-  border: 1px solid var(--color-primary); 
+  border: 1px solid var(--color-primary);
 }
 
 .back-btn {
-  background-color: var(--color-white); 
-  color: var(--color-primary);              
-  padding: 12px 32px;        
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  padding: 12px 32px !important;
   border: 1px solid var(--color-primary);
-  border-radius: 999px;      
-  font-size: 16px;           
-  font-weight: 500;          
-  cursor: pointer;           
-  transition: background-color 0.3s ease; 
-
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .back-btn:hover {
-  background-color: var(--color-primary); 
-  color: var(--color-white);  
-            
+  background-color: var(--color-primary);
+  color: var(--color-white);
 }
 
 .label {
-  font-size: 12px;
   font-weight: 500;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .row-label {
-  color: var(--color-primary) !important;
-    font-size: 16px;
+  color: var(--color-text) !important;
   font-weight: 600;
 }
 
+.dashboard-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.icon-box-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.icon-box-sm i[data-lucide] {
+  stroke-width: 2.5;
+}
+
+.icon-small {
+  font-size: 0.8em;
+  vertical-align: middle;
+  margin-right: 3px;
+  width: 14px;
+  height: 14px;
+}
+
+.icon-small[data-lucide] {
+  stroke-width: 3;
+}
