@@ -6,6 +6,7 @@ require_once __DIR__ . "/../functions/functions.php";
 require_once __DIR__ . "/../functions/orderFunctions.php";
 
 $connection = getConnection();
+$result = false;
 
 if (isset($_POST["createOrder"])) {
   $result = createOrder($_POST);
@@ -21,6 +22,22 @@ include __DIR__ . "/../templates/header.php";
 <div class="container-fluid d-flex" id="createOrder">
     <?php include(__DIR__ . "/../templates/sidebar.php"); ?>
 
+    <?php if($_SERVER["REQUEST_METHOD"] == "POST") : ?>
+
+    <div class="order-form col-10" id="orderForm">
+        <div style="width: 100%; height: 100%;display: flex; justify-content: center; align-items: center;background: rgba(61, 60, 66, .5)">
+            <div style="width: 500px; height: 300px; background: white;">
+                <a href="index.php">x</a>
+
+                <?php if($result) :?>
+                    <h1>berhasil</h1>
+                <?php else: ?>
+                    <h1>Gagal</h1>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php else : ?>
     <div class="order-form col-10" id="orderForm">
         <div class="card m-5 p-3 border-0 shadow rounded-4">
             <div class="card-body">
@@ -50,7 +67,6 @@ include __DIR__ . "/../templates/header.php";
                                     placeholder="Input Project Name">
                             </div>
                         </div>
-                        <!-- slect projct type -->
                         <div class="mb-3 row">
                             <label for="inputQuantity" class="col-sm-3 col-form-label">Quantity</label>
                             <div class="col-sm-9">
@@ -84,6 +100,7 @@ include __DIR__ . "/../templates/header.php";
             </div>
         </div>
     </div>
+    <?php endif; ?>
 <?php
 include __DIR__ . "/../templates/footer.php";
 ?>
