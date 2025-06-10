@@ -44,7 +44,10 @@ include __DIR__ . "/templates/header.php";
                     </div>
                 </div>
                 <h5 class="fw-bold my-3">Payment Method</h5>
-
+                <input type="radio" class="btn-check" name="options-base" id="visa" autocomplete="off"   checked>
+                <label class="btn" for="visa"><img src="../assets/visa.png" alt="Visa"></label>
+                <input type="radio" class="btn-check" name="options-base" id="mastercard" autocomplete="off">
+                <label class="btn" for="mastercard"><img src="../assets/mastercard.png" alt="Mastercard"></label>      
                 <h5 class="fw-bold my-3">Card Details</h5>
                 <div class="row mb-3">
                     <div class="mb-1 col-6">
