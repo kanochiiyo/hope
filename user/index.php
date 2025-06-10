@@ -11,6 +11,8 @@ if (!isLogged()) {
 }
 
 include __DIR__ . "/../templates/header.php";
+include __DIR__ . "/../templates/modal.php";
+// fix
 ?>
 
 <div class="container-fluid d-flex" id="userPage">
