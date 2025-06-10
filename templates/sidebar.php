@@ -21,8 +21,14 @@
             </div>
         <?php } ?>
 
-        <?php if (!isAdmin()) { ?>
-            <div class="nav-item p-2 m-2 fw-bold <?= isActive('index.php') ?>" onclick="location.href='/hope/user/index.php'">
+        <?php if (isStaff()) { ?>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('index.php') ?>"
+                onclick="location.href='/hope/staff/index.php'">
+                Orders
+            </div>
+        <?php } elseif (!isAdmin()) { ?>
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('index.php') ?>"
+                onclick="location.href='/hope/user/index.php'">
                 Orders
             </div>
             <div class="nav-item p-2 m-2 fw-bold <?= isActive('create_orders.php') ?>"
@@ -30,6 +36,8 @@
                 Create Orders
             </div>
         <?php } ?>
+
+
 
         <!-- SEMENTARA DI SINI DULU LOGOUTNYA -->
         <div class="nav-item p-2 m-2 fw-bold <?= isActive('logout.php') ?>" onclick="location.href='/hope/logout.php'">

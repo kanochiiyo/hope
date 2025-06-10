@@ -6,19 +6,22 @@ require_once(__DIR__ . "/functions/authentication.php");
 // require_once (__DIR__ . "/functions/functions.php");
 
 if (isLogged()) {
-    if (isAdmin()) {
+    if (isStaff()) {
+        header("Location:staff/index.php");
+    } elseif (isAdmin()) {
         header("Location:admin/index.php");
     } else {
         header("Location:user/index.php");
     }
-
 }
 
 
 if (isset($_POST["login"])) {
     $result = loginAttempt($_POST);
     if ($result) {
-        if (isAdmin()) {
+        if (isStaff()) {
+            header("Location:staff/index.php");
+        } elseif (isAdmin()) {
             header("Location:admin/index.php");
         } else {
             header("Location:user/index.php");
