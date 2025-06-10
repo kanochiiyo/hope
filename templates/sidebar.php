@@ -22,11 +22,11 @@
         <?php } ?>
 
         <?php if (!isAdmin()) { ?>
-            <div class="nav-item p-2 m-2 fw-bold <?= isActive('index.php') ?>" onclick="location.href='/hope/index.php'">
+            <div class="nav-item p-2 m-2 fw-bold <?= isActive('index.php') ?>" onclick="location.href='/hope/user/index.php'">
                 Orders
             </div>
             <div class="nav-item p-2 m-2 fw-bold <?= isActive('create_orders.php') ?>"
-                onclick="location.href='/hope/create_orders.php'">
+                onclick="location.href='/hope/user/create_orders.php'">
                 Create Orders
             </div>
         <?php } ?>

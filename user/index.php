@@ -1,25 +1,28 @@
 <?php
 session_start();
 
-require_once __DIR__ . "/functions/authentication.php";
-require_once __DIR__ . "/functions/functions.php";
+require_once __DIR__ . "/../functions/authentication.php";
+require_once __DIR__ . "/../functions/functions.php";
 
 $connection = getConnection();
 
 if (!isLogged()) {
-  header("Location:login.php");
+  header("Location:/../login.php");
 }
 
 include __DIR__ . "/../templates/header.php";
+<<<<<<< HEAD:index.php
 include __DIR__ . "/../templates/modal.php";
+=======
+>>>>>>> main:user/index.php
 ?>
 
 <div class="container-fluid d-flex" id="userPage">
-  <?php include __DIR__ . "/templates/sidebar.php"; ?>
+  <?php include __DIR__ . "/../templates/sidebar.php"; ?>
 
   <div class="main-content col-10" id="mainContent">
     <!-- Tabel Konfirmasi Proyek -->
-    <div class="card m-5 p-3 border-0 shadow rounded-4" style="width: 61rem;">
+    <div class="card m-5 p-3 border-0 shadow rounded-4">
       <div class="card-body">
         <div class="table-responsive orderTable">
           <div class="header d-flex justify-content-between">
@@ -89,7 +92,7 @@ include __DIR__ . "/../templates/modal.php";
     </div>
 
     <!-- Tabel Riwayat Proyek -->
-    <div class="card m-5 p-3 border-0 shadow rounded-4" style="width: 61rem;">
+    <div class="card m-5 p-3 border-0 shadow rounded-4">
       <div class="card-body">
         <div class="table-responsive orderTable">
           <div class="header d-flex justify-content-between">
@@ -160,3 +163,7 @@ include __DIR__ . "/../templates/modal.php";
 
   </div>
 </div>
+
+<?php
+include __DIR__ . "/../templates/footer.php";
+?>
