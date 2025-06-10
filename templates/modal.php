@@ -4,7 +4,7 @@
         <div class="modal-content" style="border-radius: 30px;">
             <div class="modal-body p-4">
                 <h5 class="modal-title" style="color: #2B3674; font-weight: 600; font-size: 22px">Confirm Order</h5>
-                <form id="approvalForm" action="/submit" method="POST">
+                <form id="approvalForm" action="payment.php" method="POST">
                     <div class="m-content">
                         <p class="my-1">Do you agree with the estimated cost?</p>
                         <div class="form-check d-inline-flex align-items-center me-3">

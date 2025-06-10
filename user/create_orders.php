@@ -90,13 +90,8 @@ include __DIR__ . "/../templates/header.php";
                         </div>
 
                         <div class="mb-3 row d-flex justify-content-between" style="margin: 0px 1px;">
-<<<<<<< HEAD:create_orders.php
                             <a href="index.php" class="back-btn col-2 text-decoration-none text-center">Back</a>
                             <input type="submit" class="submit-btn col-2" value="Submit" name="createOrder">
-=======
-                            <input type="submit" class="back-btn col-2" value="Back">
-                            <input type="submit" class="submit-btn col-2" value="Submit" name="createOrder" >
->>>>>>> main:user/create_orders.php
                         </div>
 
                     </form>
