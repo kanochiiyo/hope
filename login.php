@@ -13,7 +13,7 @@ if (isLogged()) {
 if (isset($_POST["login"])) {
   $result = loginAttempt($_POST);
   if ($result) {
-    header("Location:index.php");
+    header("Location:user/index.php");
   }
 }
 
