@@ -31,17 +31,9 @@ function createOrder($orderData){
     $result = $connection->query($query);
 
   if ($result) {
-        echo "<script>
-            alert('Order berhasil dibuat');
-            window.location.href = 'index.php';
-        </script>";
-        exit;
+        return true;
     } else {
-        echo "<script>
-            alert('Gagal membuat order: " . addslashes($connection->error) . "');
-            window.history.back();
-        </script>";
-        exit;
+        return false;
     }
     
 
