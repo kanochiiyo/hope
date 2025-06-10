@@ -1,23 +1,23 @@
 <?php
 session_start();
 
-require_once __DIR__ . "/functions/authentication.php";
-require_once __DIR__ . "/functions/functions.php";
+require_once __DIR__ . "/../functions/authentication.php";
+require_once __DIR__ . "/../functions/functions.php";
 
 $connection = getConnection();
 
 if (!isLogged()) {
-    header("Location:login.php");
+    header("Location:/../login.php");
 }
 
-include __DIR__ . "/templates/header.php";
+include __DIR__ . "/../templates/header.php";
 ?>
 
 <div class="container-fluid d-flex" id="createOrder">
-    <?php include(__DIR__ . "/templates/sidebar.php"); ?>
+    <?php include(__DIR__ . "/../templates/sidebar.php"); ?>
 
     <div class="order-form col-10" id="orderForm">
-        <div class="card m-5 p-3 border-0 shadow rounded-4" style="width: 61rem;">
+        <div class="card m-5 p-3 border-0 shadow rounded-4">
             <div class="card-body">
                 <div class="header d-flex justify-content-between">
                     <h3 class="fw-bold">Create Orders</h3>
@@ -79,3 +79,6 @@ include __DIR__ . "/templates/header.php";
             </div>
         </div>
     </div>
+<?php
+include __DIR__ . "/../templates/footer.php";
+?>
