@@ -11,10 +11,6 @@ if (!isLogged()) {
 }
 
 include __DIR__ . "/../templates/header.php";
-<<<<<<< HEAD:index.php
-include __DIR__ . "/../templates/modal.php";
-=======
->>>>>>> main:user/index.php
 ?>
 
 <div class="container-fluid d-flex" id="userPage">
