@@ -6,6 +6,26 @@ require_once __DIR__ . "/../functions/functions.php";
 
 $connection = getConnection();
 
+$query = "SELECT * FROM orders WHERE cust_approve = 0;";
+$uncomfirmed_orders = $connection->query($query);
+
+$q = "
+SELECT o.*, latest_status.name AS status_name
+FROM orders o
+LEFT JOIN (
+    SELECT op.orders_id, st.name
+    FROM orders_progress op
+    JOIN status st ON op.status_id = st.id
+    WHERE op.date = (
+        SELECT MAX(op2.date)
+        FROM orders_progress op2
+        WHERE op2.orders_id = op.orders_id
+    )
+) AS latest_status ON o.id = latest_status.orders_id
+WHERE o.cust_approve = 1;
+";
+$orders = $connection->query($q);
+
 if (!isLogged()) {
   header("Location:/hope/login.php");
 }
@@ -24,7 +44,6 @@ include __DIR__ . "/../templates/modal.php";
           <div class="header d-flex justify-content-between">
             <h3 class="fw-bold">All Orders</h3>
           </div>
-
           <table class="table table-borderless">
             <thead>
               <tr>
@@ -38,32 +57,31 @@ include __DIR__ . "/../templates/modal.php";
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Pintu Gerbang</td>
-                <td class="text-center">1</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">1/3/2025</td>
-                <td class="text-center">Rp 120000</td>
-                <td class="text-center"> <button type="button" class="action-btn" data-bs-toggle="modal"
-                    data-bs-target="#userModal">
-                    Confirm
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Pintu Gerbang</td>
-                <td class="text-center">1</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">1/3/2025</td>
-                <td class="text-center">Rp 120000</td>
-                <td class="text-center"> <button type="button" class="action-btn" data-bs-toggle="modal"
-                    data-bs-target="#userModal">
-                    Confirm
-                  </button>
-                </td>
-              </tr>
+              <?php if ($uncomfirmed_orders && $uncomfirmed_orders->num_rows > 0): ?>
+                <?php while ($row = $uncomfirmed_orders->fetch_assoc()): ?>
+                  <tr>
+                    <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
+                    <td class="text-center"><?= date('d/m/Y', strtotime($row['order_date'])) ?></td>
+                    <td class="text-center">
+                      <?= $row['estimation_date'] ? date('d/m/Y', strtotime($row['estimation_date'])) : '-' ?>
+                    </td>
+                    <td class="text-center">
+                      <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#userModal">
+                        Confirm
+                      </button>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr>
+                  <td class="text-center" colspan="7">Tidak ada data order.</td>
+                </tr>
+              <?php endif; ?>
             </tbody>
           </table>
           <hr>
@@ -90,7 +108,6 @@ include __DIR__ . "/../templates/modal.php";
           <div class="header d-flex justify-content-between">
             <h3 class="fw-bold">All Orders</h3>
           </div>
-
           <table class="table table-borderless">
             <thead>
               <tr>
@@ -104,34 +121,33 @@ include __DIR__ . "/../templates/modal.php";
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Pintu Gerbang</td>
-                <td class="text-center">1</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">1/3/2025</td>
-                <td class="text-center align-middle">
-                  <p class="status-completed">Completed</p>
-                </td>
-                <td class="text-center align-middle">
-                  <p class="action-btn"><a class="text-reset text-decoration-none" href="detail_orders.php">Detail</a>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Pintu Gerbang</td>
-                <td class="text-center">1</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">1/3/2025</td>
-                <td class="text-center align-middle">
-                  <p class="status-completed">Completed</p>
-                </td>
-                <td class="text-center align-middle">
-                  <p class="action-btn"><a class="text-reset text-decoration-none" href="detail_orders.php">Detail</a>
-                  </p>
-                </td>
-              </tr>
+              <?php if ($orders && $orders->num_rows > 0): ?>
+                <?php while ($row = $orders->fetch_assoc()): ?>
+                  <tr>
+                    <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
+                    <td class="text-center"><?= date('d/m/Y', strtotime($row['order_date'])) ?></td>
+                    <td class="text-center">
+                      <?= $row['estimation_date'] ? date('d/m/Y', strtotime($row['estimation_date'])) : '-' ?>
+                    </td>
+                    <td class="text-center align-middle">
+                      <p class="status-<?= strtolower(str_replace(' ', '-', $row['status_name'] ?? 'pending')) ?>">
+                        <?= htmlspecialchars($row['status_name'] ?? 'Pending') ?>
+                      </p>
+                    </td>
+                    <td class="text-center align-middle">
+                      <p class="action-btn">
+                        <a class="text-reset text-decoration-none" href="detail_orders.php?id=<?= $row['id'] ?>">Detail</a>
+                      </p>
+                    </td>
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <tr>
+                  <td class="text-center" colspan="7">Tidak ada data order.</td>
+                </tr>
+              <?php endif; ?>
             </tbody>
           </table>
           <hr>
