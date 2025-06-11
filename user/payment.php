@@ -3,12 +3,18 @@ session_start();
 
 require_once __DIR__ . "/../functions/authentication.php";
 require_once __DIR__ . "/../functions/functions.php";
+require_once __DIR__ . "/../functions/orderFunctions.php";
 
 $connection = getConnection();
 
 if (!isLogged()) {
     header("Location:/hope/login.php");
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $result = updateUserApproval($_POST);
+}
+
 
 include __DIR__ . "/../templates/header.php";
 ?>

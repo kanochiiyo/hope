@@ -35,8 +35,47 @@ function createOrder($orderData){
     } else {
         return false;
     }
-    
+}
 
+function updateUserApproval($approvalData){
+    $connection = getConnection();
 
+    $id = $approvalData["id"];
+    $approvalInput = isset($approvalData["userApproval"]) ? $approvalData["userApproval"] : null;
+
+    // Konversi nilai approval
+    if ($approvalInput === "Approve") {
+        $approval = 1;
+        $status_id = 1;
+    } elseif ($approvalInput === "Reject") {
+        $approval = 0;
+        $status_id = 6;
+    } else {
+        // Jika nilai tidak valid, bisa throw error atau return false
+        return false;
+    }
+
+    $today = date('Y-m-d');
+        // Update status approval pada tabel orders
+    $query1 = "UPDATE orders SET cust_approve = $approval WHERE id = $id";
+    $result1 = $connection->query($query1);
+
+    // Cek apakah sudah ada progress dengan status dan tanggal yang sama
+    $checkQuery = "
+        SELECT 1 FROM orders_progress 
+        WHERE orders_id = $id 
+        AND status_id = $status_id 
+        AND date = '$today'
+        LIMIT 1
+    ";
+    $checkResult = $connection->query($checkQuery);
+
+    // Jika belum ada, maka insert
+    if ($checkResult && $checkResult->num_rows === 0) {
+        $query2 = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($id, '$today', $status_id)";
+        $connection->query($query2);
+    }
+
+    return $result1; // true jika update berhasil, false jika gagal
 }
 

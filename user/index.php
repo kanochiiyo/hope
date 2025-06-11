@@ -3,10 +3,16 @@ session_start();
 
 require_once __DIR__ . "/../functions/authentication.php";
 require_once __DIR__ . "/../functions/functions.php";
+require_once __DIR__ . "/../functions/orderFunctions.php";
 
 $connection = getConnection();
+$user_id = $_SESSION["id"];
 
-$query = "SELECT * FROM orders WHERE cust_approve = 0;";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $result = updateUserApproval($_POST);
+}
+
+$query = "SELECT * FROM orders WHERE cust_approve is NULL AND cust_id = $user_id;";
 $uncomfirmed_orders = $connection->query($query);
 
 $q = "
@@ -22,13 +28,16 @@ LEFT JOIN (
         WHERE op2.orders_id = op.orders_id
     )
 ) AS latest_status ON o.id = latest_status.orders_id
-WHERE o.cust_approve = 1;
+WHERE o.cust_approve is not NULL
+AND o.cust_id = $user_id;
 ";
 $orders = $connection->query($q);
 
 if (!isLogged()) {
   header("Location:/hope/login.php");
 }
+
+
 
 include __DIR__ . "/../templates/header.php";
 include __DIR__ . "/../templates/modal.php";
@@ -71,7 +80,7 @@ include __DIR__ . "/../templates/modal.php";
                       <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
                     </td>
                     <td class="text-center">
-                      <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#userModal">
+                      <button type="button" class="action-btn confirm-button" data-id="<?= $row["id"] ?>" data-bs-toggle="modal" data-bs-target="#userModal">
                         Confirm
                       </button>
                     </td>
@@ -137,9 +146,9 @@ include __DIR__ . "/../templates/modal.php";
                       </p>
                     </td>
                     <td class="text-center align-middle">
-                      <p class="action-btn">
-                        <a class="text-reset text-decoration-none" href="detail_orders.php?id=<?= $row['id'] ?>">Detail</a>
-                      </p>
+                      <a class="action-btn text-decoration-none" href="detail_orders.php?id=<?= $row['id'] ?>">
+                       <span class="text-reset">Detail</span> 
+                      </a>
                     </td>
                   </tr>
                 <?php endwhile; ?>
@@ -173,3 +182,26 @@ include __DIR__ . "/../templates/modal.php";
 <?php
 include __DIR__ . "/../templates/footer.php";
 ?>
+
+<script>
+  const buttons = document.querySelectorAll(".confirm-button");
+  const approvalIdInput = document.querySelector("#approval-id-input");
+  const userApprovalForm = document.querySelector("#userApprovalForm");
+
+  for(const button of buttons) {
+    button.addEventListener("click", () => {
+      approvalIdInput.value = button.dataset.id;
+    })
+  }
+
+  userApprovalForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const isApprove = (e.target.elements["userApproval"].value == "Approve") ? true : false;
+    if(!isApprove) {
+      form.action = "/hope/user/index.php";
+    }
+    
+    form.submit();
+  })
+</script>
