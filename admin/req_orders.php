@@ -52,10 +52,6 @@ include __DIR__ . "/../templates/modal.php";
         <h3>Hi, Admin!</h3>
         <h1 class="fw-bold">Welcome to Website!</h1>
       </div>
-      <div class="download-btn">
-        <!-- buat download report -->
-        <input type="submit" class="submit-btn" value="Download Report">
-      </div>
     </div>
     <div class="card mx-5 mb-5 mt-3 p-3 border-0 shadow rounded-4">
       <div class="card-body">
