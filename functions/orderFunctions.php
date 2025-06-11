@@ -20,11 +20,11 @@ function createOrder($orderData){
      $query = "
         INSERT INTO orders (
             name, phone_number, deskripsi, price, order_date, estimation_date, end_date,
-            qty, shipping_address, owner_approve, cust_approve, cust_id
+            qty, shipping_address, owner_approve, cust_approve, cust_id, cust_name
         ) VALUES (
             '$project', '$phone', '$description', NULL, '$orderDate',
             NULL, NULL,
-            $quantity, '$shipping', 0, 0, $custId
+            $quantity, '$shipping', NULL, NULL, $custId, '$name'
         )
     ";
 
@@ -79,3 +79,69 @@ function updateUserApproval($approvalData){
     return $result1; // true jika update berhasil, false jika gagal
 }
 
+function updateOwnerApproval($approvalData){
+    $connection = getConnection();
+
+    $id = $approvalData["id"];
+    $approvalInput = isset($approvalData["ownerApproval"]) ? $approvalData["ownerApproval"] : null;
+    $price = $approvalData["price"];
+    $est_date = $approvalData["estimation"];
+
+    // Konversi nilai approval
+    if ($approvalInput === "Approve") {
+        $approval = 1;
+    } elseif ($approvalInput === "Reject") {
+        $approval = 0;
+    } else {
+        // Jika nilai tidak valid, bisa throw error atau return false
+        return false;
+    }
+
+        // Update status approval pada tabel orders
+    $query = "UPDATE orders SET owner_approve = $approval, price = $price, estimation_date = '$est_date' WHERE id = $id";
+    $result = $connection->query($query);
+
+    return $result; // true jika update berhasil, false jika gagal
+}
+
+function updateStatusStaff($statusData){
+    $connection = getConnection();
+
+    $id = $statusData["id"];
+    $statusInput = $statusData['status'] ?? 'pending'; // default ke pending jika kosong
+    $today = date('Y-m-d');
+
+    
+    switch (strtolower($statusInput)) {
+        case 'pending':
+            $statusId = 2;
+            break;
+        case 'ongoing':
+            $statusId = 3;
+            break;
+        case 'finishing':
+            $statusId = 4;
+            break;
+        case 'completed':
+            $statusId = 5;
+            break;
+        default:
+            $statusId = 2; // fallback default ke 'pending'
+    }
+
+        // Cek apakah sudah ada progress dengan status dan tanggal yang sama
+    $checkQuery = "
+        SELECT 1 FROM orders_progress 
+        WHERE orders_id = $id 
+        AND status_id = $statusId 
+        AND date = '$today'
+        LIMIT 1
+    ";
+    $checkResult = $connection->query($checkQuery);
+
+    // Jika belum ada, maka insert
+    if ($checkResult && $checkResult->num_rows === 0) {
+        $query2 = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($id, '$today', $statusId)";
+        $connection->query($query2);
+    }
+}

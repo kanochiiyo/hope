@@ -10,6 +10,23 @@ if (!isLogged()) {
   header("Location:/hope/login.php");
 }
 
+$q = "
+SELECT o.*, latest_status.name AS status_name
+FROM orders o
+LEFT JOIN (
+    SELECT op.orders_id, st.name
+    FROM orders_progress op
+    JOIN status st ON op.status_id = st.id
+    WHERE op.date = (
+        SELECT MAX(op2.date)
+        FROM orders_progress op2
+        WHERE op2.orders_id = op.orders_id
+    )
+) AS latest_status ON o.id = latest_status.orders_id
+WHERE o.owner_approve is NULL;
+";
+$orders = $connection->query($q);
+
 include __DIR__ . "/../templates/header.php";
 include __DIR__ . "/../templates/modal.php";
 ?>
@@ -51,32 +68,30 @@ include __DIR__ . "/../templates/modal.php";
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Gojo Satoru</td>
-                <td class="text-center">Kanopi Teduh</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">4</td>
-                <td class="text-center">Rp 120000</td>
-                <td class="text-center">
-                  <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#ownerModal">
-                    Update
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Gojo Satoru</td>
-                <td class="text-center">Kanopi Teduh</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">4</td>
-                <td class="text-center">Rp 120000</td>
-                <td class="text-center">
-                  <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#ownerModal">
-                    Update
-                  </button>
-                </td>
-              </tr>
+             <?php if ($orders && $orders->num_rows > 0): ?>
+                <?php while ($row = $orders->fetch_assoc()): ?>
+                <tr>
+                    <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['cust_name']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
+                    <td class="text-center"><?= date('d/m/Y', strtotime($row['order_date'])) ?></td>
+                    <td class="text-center">
+                    <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
+                    </td>
+                    <td class="text-center align-middle">
+                        <button type="button" class="action-btn update-btn" data-bs-toggle="modal" data-id="<?= $row["id"] ?>" data-bs-target="#ownerModal">
+                         Update
+                       </button>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <tr>
+                <td class="text-center" colspan="8">Tidak ada data order.</td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
           </table>
           <hr>
         </div>
@@ -101,3 +116,14 @@ include __DIR__ . "/../templates/modal.php";
 <?php
 include __DIR__ . "/../templates/footer.php";
 ?>
+
+<script>
+  const buttons = document.querySelectorAll(".update-btn");
+  const approvalIdInput = document.querySelector("#owner-id-input");
+
+  for(const button of buttons) {
+    button.addEventListener("click", () => {
+      approvalIdInput.value = button.dataset.id;
+    })
+  }
+</script>
