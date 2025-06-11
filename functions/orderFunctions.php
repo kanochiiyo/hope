@@ -145,3 +145,33 @@ function updateStatusStaff($statusData){
         $connection->query($query2);
     }
 }
+
+function createPayment($paymentData){
+    $connection = getConnection();
+
+    $address = $paymentData["address"];
+    $city = $paymentData["city"];
+    $state = $paymentData["state"];
+    $postal = $paymentData["postal"];
+    $payment_method = $paymentData["payment_method"];
+    $card_name = $paymentData["card_name"];
+    $card_number = $paymentData["card_number"];
+    $expirity = $paymentData["expirity"];
+    $cvc = $paymentData["cvc"];
+    $order_id = $paymentData["id"];
+
+     // Query insert
+    $query = "INSERT INTO payment 
+            (address_line, city, state, postal_code, card_name, card_number, expirity, cvc, payment_method, orders_id)
+        VALUES 
+            ('$address', '$city', '$state', '$postal', '$card_name', '$card_number', '$expirity', '$cvc', '$payment_method', $order_id)
+    ";
+
+    $result = $connection->query($query);
+
+  if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
