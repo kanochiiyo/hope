@@ -84,9 +84,9 @@
         <h5 class="modal-title mb-4" style="color: #2B3674; font-weight: 600; font-size: 22px">Update Request
           Order
         </h5>
-        <form id="staffUpdateForm" action="payment.php" method="POST">
+        <form id="staffUpdateForm" action="index.php" method="POST">
           <div class="mb-3"> <label for="statusSelect" class="form-label visually-hidden">Select a status</label>
-            <select class="form-select" id="statusSelect" aria-label="Select a status" required>
+            <select class="form-select" id="statusSelect" aria-label="Select a status" name="status" required>
               <option selected disabled hidden value="">Select a status</option>
               <option value="pending">Pending</option>
               <option value="ongoing">On Going</option>
@@ -95,8 +95,9 @@
               <option value="completed">Completed</option>
             </select>
           </div>
-
-          <div class="text-end mt-3"> <input type="submit" value="Submit" class="submit-btn">
+          <input name="id" type="hidden" id="staff-id-input" value="">
+          <div class="text-end mt-3"> 
+            <input type="submit" value="Submit" class="submit-btn">
           </div>
         </form>
       </div>

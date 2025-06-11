@@ -103,3 +103,45 @@ function updateOwnerApproval($approvalData){
 
     return $result; // true jika update berhasil, false jika gagal
 }
+
+function updateStatusStaff($statusData){
+    $connection = getConnection();
+
+    $id = $statusData["id"];
+    $statusInput = $statusData['status'] ?? 'pending'; // default ke pending jika kosong
+    $today = date('Y-m-d');
+
+    
+    switch (strtolower($statusInput)) {
+        case 'pending':
+            $statusId = 2;
+            break;
+        case 'ongoing':
+            $statusId = 3;
+            break;
+        case 'finishing':
+            $statusId = 4;
+            break;
+        case 'completed':
+            $statusId = 5;
+            break;
+        default:
+            $statusId = 2; // fallback default ke 'pending'
+    }
+
+        // Cek apakah sudah ada progress dengan status dan tanggal yang sama
+    $checkQuery = "
+        SELECT 1 FROM orders_progress 
+        WHERE orders_id = $id 
+        AND status_id = $statusId 
+        AND date = '$today'
+        LIMIT 1
+    ";
+    $checkResult = $connection->query($checkQuery);
+
+    // Jika belum ada, maka insert
+    if ($checkResult && $checkResult->num_rows === 0) {
+        $query2 = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($id, '$today', $statusId)";
+        $connection->query($query2);
+    }
+}

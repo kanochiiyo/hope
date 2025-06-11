@@ -3,12 +3,39 @@ session_start();
 
 require_once __DIR__ . "/../functions/authentication.php";
 require_once __DIR__ . "/../functions/functions.php";
+require_once __DIR__ . "/../functions/orderFunctions.php";
 
 $connection = getConnection();
 
 if (!isLogged()) {
   header("Location:/hope/login.php");
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $result = updateStatusStaff($_POST);
+}
+
+$q = "
+SELECT o.*, latest_status.name AS status_name
+FROM orders o
+LEFT JOIN (
+    SELECT op.orders_id, s.name
+    FROM orders_progress op
+    JOIN status s ON op.status_id = s.id
+    WHERE (op.orders_id, op.date, op.status_id) IN (
+        SELECT op2.orders_id, op2.date, MAX(op2.status_id)
+        FROM orders_progress op2
+        WHERE (op2.date) = (
+            SELECT MAX(op3.date)
+            FROM orders_progress op3
+            WHERE op3.orders_id = op2.orders_id
+        )
+        GROUP BY op2.orders_id, op2.date
+    )
+) AS latest_status ON o.id = latest_status.orders_id
+WHERE o.owner_approve IS NOT NULL;
+";
+$orders = $connection->query($q);
 
 include __DIR__ . "/../templates/header.php";
 include __DIR__ . "/../templates/modal.php";
@@ -38,39 +65,34 @@ include __DIR__ . "/../templates/modal.php";
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Natsuki Seba</td>
-                <td class="text-center">Pintu Gerbang</td>
-                <td class="text-center">1</td>
-                <!-- order date ini berarti pas dia di acc sama pemesan kan ya? bukan pas pertama kali -->
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">1/3/2025</td>
-                <td class="text-center align-middle">
-                  <p class="status-ongoing">On Going</p>
-                </td>
-                <td class="text-center">
-                  <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#staffModal">
-                    Update
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td class="text-center">93232</td>
-                <td class="text-center">Natsuki Seba</td>
-                <td class="text-center">Pintu Gerbang</td>
-                <td class="text-center">1</td>
-                <td class="text-center">12/12/2024</td>
-                <td class="text-center">1/3/2025</td>
-                <td class="text-center align-middle">
-                  <p class="status-completed">Completed</p>
-                </td>
-                <td class="text-center">
-                  <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#staffModal">
-                    Update
-                  </button>
-                </td>
-              </tr>
+               <?php if ($orders && $orders->num_rows > 0): ?>
+                      <?php while ($row = $orders->fetch_assoc()): ?>
+                      <tr>
+                          <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
+                          <td class="text-center"><?= htmlspecialchars($row['cust_name']) ?></td>
+                          <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
+                          <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
+                          <td class="text-center"><?= date('d/m/Y', strtotime($row['order_date'])) ?></td>
+                          <td class="text-center">
+                          <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
+                          </td>
+                          <td class="text-center align-middle">
+                              <p class="status-<?= strtolower(str_replace(' ', '-', $row['status_name'] ?? 'pending')) ?>">
+                                  <?= htmlspecialchars($row['status_name'] ?? 'Pending') ?>
+                              </p>
+                          </td>
+                          <td class="text-center">
+                          <button type="button" class="action-btn staff-btn" data-bs-toggle="modal" data-id="<?= $row["id"] ?>" data-bs-target="#staffModal">
+                            Update
+                          </button>
+                        </td>
+                      </tr>
+                      <?php endwhile; ?>
+                  <?php else: ?>
+                      <tr>
+                      <td class="text-center" colspan="8">Tidak ada data order.</td>
+                      </tr>
+                  <?php endif; ?>
             </tbody>
           </table>
           <hr>
@@ -96,3 +118,14 @@ include __DIR__ . "/../templates/modal.php";
 <?php
 include __DIR__ . "/../templates/footer.php";
 ?>
+
+<script>
+  const buttons = document.querySelectorAll(".staff-btn");
+  const approvalIdInput = document.querySelector("#staff-id-input");
+
+  for(const button of buttons) {
+    button.addEventListener("click", () => {
+      approvalIdInput.value = button.dataset.id;
+    })
+  }
+</script>
