@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // ============================== PAGINATION LOGIC ==============================
-$pagination_unconfirmed = getPaginationParams('page_unconfirmed', 10);
+$pagination_unconfirmed = getPaginationParams('page_unconfirmed', 4);
 $page_unconfirmed = $pagination_unconfirmed['currentPage'];
 $limit_unconfirmed = $pagination_unconfirmed['limit'];
 $offset_unconfirmed = $pagination_unconfirmed['offset'];
@@ -23,7 +23,7 @@ $total_unconfirmed_result = $connection->query($total_unconfirmed_query);
 $total_unconfirmed_rows = $total_unconfirmed_result->fetch_assoc()['total'];
 $total_unconfirmed_pages = calculateTotalPages($total_unconfirmed_rows, $limit_unconfirmed);
 
-$pagination_all_orders = getPaginationParams('page_all_orders', 10);
+$pagination_all_orders = getPaginationParams('page_all_orders', 4);
 $page_all_orders = $pagination_all_orders['currentPage'];
 $limit_all_orders = $pagination_all_orders['limit'];
 $offset_all_orders = $pagination_all_orders['offset'];
