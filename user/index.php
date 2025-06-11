@@ -100,12 +100,21 @@ include __DIR__ . "/../templates/modal.php";
                     <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
                     <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
                     <td class="text-center"><?= date('d/m/Y', strtotime($row['order_date'])) ?></td>
-                    <td class="text-center">
-                      <?= $row['estimation_date'] ? date('d/m/Y', strtotime($row['estimation_date'])) : '-' ?>
-                    </td>
-                    <td class="text-center">
-                      <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
-                    </td>
+                    <?php
+                      $is_est_date_empty = empty($row['estimation_date']); 
+                      $is_price_empty = empty($row['price']);
+
+                      if ($is_est_date_empty && $is_price_empty):
+                    ?>
+                    <td class="text-center" colspan="2">Waiting for Approval</td>
+                    <?php else: ?>
+                      <td class="text-center">
+                        <?= $is_est_date_empty ? '-' : date('d/m/Y', strtotime($row['estimation_date'])) ?>
+                      </td>
+                      <td class="text-center">
+                        <?= $is_price_empty ? '-' : 'Rp ' . number_format($row['price'], 0, ',', '.') ?>
+                      </td>
+                    <?php endif; ?>
                     <td class="text-center">
                       <button type="button" class="action-btn confirm-button" data-id="<?= $row["id"] ?>"
                         data-bs-toggle="modal" data-bs-target="#userModal">
