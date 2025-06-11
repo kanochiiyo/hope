@@ -37,7 +37,7 @@
         <h5 class="modal-title mb-4" style="color: #2B3674; font-weight: 600; font-size: 22px">Update Request
           Order
         </h5>
-        <form id="OwnerApprovalForm" action="payment.php" method="POST">
+        <form id="OwnerApprovalForm" action="orders.php" method="POST">
           <div class="mb-3 row align-items-center">
             <label class="col-sm-5 col-form-label row-label">Approval
               Status</label>
@@ -56,17 +56,17 @@
           <div class="mb-3 row align-items-center">
             <label for="priceInput" class="col-sm-5 col-form-label row-label">Price</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="priceInput" placeholder="Enter Price">
+              <input type="text" class="form-control" id="priceInput" name="price" placeholder="Enter Price">
             </div>
           </div>
 
           <div class="mb-4 row align-items-center"> <label for="completionDateInput"
               class="col-sm-5 col-form-label row-label">Estimated Completion Date</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="completionDateInput" placeholder="Enter Date">
+              <input type="date" class="form-control" id="completionDateInput" name="estimation" placeholder="Enter Date">
             </div>
           </div>
-
+          <input name="id" type="hidden" id="owner-id-input" value="">
           <div class="text-end">
             <input type="submit" value="Submit" class="submit-btn">
           </div>

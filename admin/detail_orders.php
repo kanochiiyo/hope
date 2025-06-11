@@ -105,7 +105,7 @@ include __DIR__ . "/../templates/header.php";
                             </tbody>
                             </table>
                             <div class="mb-3 row d-flex justify-content-between" style="margin: 0px 1px;">
-                                <a href="index.php" class="back-btn col-2 text-decoration-none text-center">Back</a>
+                                <a href="orders.php" class="back-btn col-2 text-decoration-none text-center">Back</a>
                             </div>
 
                         </div>

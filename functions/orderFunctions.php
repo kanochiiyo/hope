@@ -20,11 +20,11 @@ function createOrder($orderData){
      $query = "
         INSERT INTO orders (
             name, phone_number, deskripsi, price, order_date, estimation_date, end_date,
-            qty, shipping_address, owner_approve, cust_approve, cust_id
+            qty, shipping_address, owner_approve, cust_approve, cust_id, cust_name
         ) VALUES (
             '$project', '$phone', '$description', NULL, '$orderDate',
             NULL, NULL,
-            $quantity, '$shipping', 0, 0, $custId
+            $quantity, '$shipping', NULL, NULL, $custId, '$name'
         )
     ";
 
@@ -79,3 +79,27 @@ function updateUserApproval($approvalData){
     return $result1; // true jika update berhasil, false jika gagal
 }
 
+function updateOwnerApproval($approvalData){
+    $connection = getConnection();
+
+    $id = $approvalData["id"];
+    $approvalInput = isset($approvalData["ownerApproval"]) ? $approvalData["ownerApproval"] : null;
+    $price = $approvalData["price"];
+    $est_date = $approvalData["estimation"];
+
+    // Konversi nilai approval
+    if ($approvalInput === "Approve") {
+        $approval = 1;
+    } elseif ($approvalInput === "Reject") {
+        $approval = 0;
+    } else {
+        // Jika nilai tidak valid, bisa throw error atau return false
+        return false;
+    }
+
+        // Update status approval pada tabel orders
+    $query = "UPDATE orders SET owner_approve = $approval, price = $price, estimation_date = '$est_date' WHERE id = $id";
+    $result = $connection->query($query);
+
+    return $result; // true jika update berhasil, false jika gagal
+}
