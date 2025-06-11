@@ -23,10 +23,10 @@ include __DIR__ . "/../templates/header.php";
   <?php include(__DIR__ . "/../templates/sidebar.php"); ?>
 
   <?php if ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
-    <div class="col-10 order-form-container d-flex justify-content-center align-items-center">
+    <div class="col-10 order-form-container d-flex justify-content-center align-items-center" style="min-height: 100vh">
       <!-- Pop-up Start -->
       <div class="popup p-5">
-        <a href="index.php">X</a>
+        <a class="d-flex align-items-center justify-content-center" href="index.php">X</a>
         <?php if ($result): ?>
           <div class="order-sucess m-5">
             <img class="mb-4" src="../assets/check_circle.png" alt="Order Completed">

@@ -91,7 +91,7 @@ include __DIR__ . "/../templates/header.php";
                                 <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <p class="status-<?= strtolower(str_replace(' ', '-', $row['status_name'] ?? 'pending')) ?>">
+                                    <p class="status-<?= strtolower(str_replace(' ', '', $row['status_name'] ?? 'pending')) ?>">
                                         <?= htmlspecialchars($row['status_name'] ?? 'Pending') ?>
                                     </p>
                                 </td>

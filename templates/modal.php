@@ -21,7 +21,7 @@
           </div>
           <input name="id" type="hidden" id="approval-id-input" value="">
           <div class="mt-4 text-end">
-            <input type="submit" value="Submit" class="submit-btn" name = "updateUserApproval">
+            <input type="submit" value="Submit" class="submit-btn" name="updateUserApproval">
           </div>
         </form>
       </div>
@@ -63,7 +63,8 @@
           <div class="mb-4 row align-items-center"> <label for="completionDateInput"
               class="col-sm-5 col-form-label row-label">Estimated Completion Date</label>
             <div class="col-sm-7">
-              <input type="date" class="form-control" id="completionDateInput" name="estimation" placeholder="Enter Date">
+              <input type="date" class="form-control" id="completionDateInput" name="estimation"
+                placeholder="Enter Date">
             </div>
           </div>
           <input name="id" type="hidden" id="owner-id-input" value="">
@@ -96,7 +97,7 @@
             </select>
           </div>
           <input name="id" type="hidden" id="staff-id-input" value="">
-          <div class="text-end mt-3"> 
+          <div class="text-end mt-3">
             <input type="submit" value="Submit" class="submit-btn">
           </div>
         </form>
