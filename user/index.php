@@ -39,13 +39,18 @@ $q = "
 SELECT o.*, latest_status.name AS status_name
 FROM orders o
 LEFT JOIN (
-    SELECT op.orders_id, st.name
+    SELECT op.orders_id, s.name
     FROM orders_progress op
-    JOIN status st ON op.status_id = st.id
-    WHERE op.date = (
-        SELECT MAX(op2.date)
+    JOIN status s ON op.status_id = s.id
+    WHERE (op.orders_id, op.date, op.status_id) IN (
+        SELECT op2.orders_id, op2.date, MAX(op2.status_id)
         FROM orders_progress op2
-        WHERE op2.orders_id = op.orders_id
+        WHERE (op2.date) = (
+            SELECT MAX(op3.date)
+            FROM orders_progress op3
+            WHERE op3.orders_id = op2.orders_id
+        )
+        GROUP BY op2.orders_id, op2.date
     )
 ) AS latest_status ON o.id = latest_status.orders_id
 WHERE o.cust_approve is not NULL
