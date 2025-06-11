@@ -19,9 +19,9 @@
               </div>
             </div>
           </div>
-
+          <input name="id" type="hidden" id="approval-id-input" value="">
           <div class="mt-4 text-end">
-            <input type="submit" value="Submit" class="submit-btn">
+            <input type="submit" value="Submit" class="submit-btn" name = "updateUserApproval">
           </div>
         </form>
       </div>
