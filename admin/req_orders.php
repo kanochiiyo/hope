@@ -35,7 +35,7 @@ LEFT JOIN (
     )
 ) AS latest_status ON o.id = latest_status.orders_id
 WHERE o.owner_approve is NULL
-ORDER BY o.order_date DESC, o.id DESC 
+ORDER BY o.updated_at DESC, o.id DESC 
 LIMIT $limit_req_orders OFFSET $offset_req_orders;
 ";
 $orders = $connection->query($q);

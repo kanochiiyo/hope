@@ -45,7 +45,7 @@ LEFT JOIN (
     )
 ) AS latest_status ON o.id = latest_status.orders_id
 WHERE o.owner_approve IS NOT NULL
-ORDER BY o.order_date DESC, o.id DESC
+ORDER BY o.updated_at DESC, o.id DESC 
 LIMIT $limit_admin_orders OFFSET $offset_admin_orders;
 ";
 $orders = $connection->query($q);
@@ -106,8 +106,8 @@ include __DIR__ . "/../templates/header.php";
                     <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
                     <td class="text-center"><?= htmlspecialchars($row['cust_name']) ?></td>
                     <td class="text-center"><?= htmlspecialchars($row['name']) ?></td>
-                    <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
                     <td class="text-center"><?= date('d/m/Y', strtotime($row['order_date'])) ?></td>
+                    <td class="text-center"><?= htmlspecialchars($row['qty']) ?></td>
                     <td class="text-center">
                       <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
                     </td>

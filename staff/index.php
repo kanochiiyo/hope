@@ -26,7 +26,7 @@ $total_staff_orders_result = $connection->query($total_staff_orders_query);
 $total_staff_orders_rows = $total_staff_orders_result->fetch_assoc()['total'];
 $total_staff_orders_pages = calculateTotalPages($total_staff_orders_rows, $limit_staff_orders);
 
-$q = "  
+$q = "
 SELECT o.*, latest_status.name AS status_name
 FROM orders o
 LEFT JOIN (
@@ -44,9 +44,9 @@ LEFT JOIN (
         GROUP BY op2.orders_id, op2.date
     )
 ) AS latest_status ON o.id = latest_status.orders_id
-WHERE o.owner_approve IS NOT NULL 
-AND latest_status.name NOT IN ('Pending', 'Rejected')
-ORDER BY o.order_date DESC, o.id DESC
+WHERE o.owner_approve IS NOT NULL
+  AND latest_status.name NOT IN ('Pending', 'Rejected')
+ORDER BY o.updated_at DESC, o.id DESC 
 LIMIT $limit_staff_orders OFFSET $offset_staff_orders;
 ";
 $orders = $connection->query($q);

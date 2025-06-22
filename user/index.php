@@ -55,7 +55,7 @@ LEFT JOIN (
 ) AS latest_status ON o.id = latest_status.orders_id
 WHERE o.cust_approve is not NULL
 AND o.cust_id = $user_id
-ORDER BY o.order_date DESC, o.id DESC
+ORDER BY o.updated_at DESC, o.id DESC 
 LIMIT $limit_all_orders OFFSET $offset_all_orders;
 ";
 $orders = $connection->query($q);
