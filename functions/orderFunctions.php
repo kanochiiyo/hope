@@ -5,6 +5,7 @@ require_once(__DIR__ . "/connection.php");
 
 function createOrder($orderData)
 {
+    error_log("DEBUG: createOrder function called.");
     $connection = getConnection();
 
     $name = $orderData["custName"];
@@ -13,10 +14,9 @@ function createOrder($orderData)
     $quantity = $orderData["quantity"];
     $shipping = $orderData["shippingAddress"];
     $description = $orderData["description"];
-    $orderDate = date('Y-m-d'); // tanggal saat ini
+    $orderDate = date('Y-m-d');
     $custId = $_SESSION['id'];
 
-    // Kolom 'current_status_id' dihapus dari sini karena tidak ada lagi di tabel 'orders'
     $query = "
         INSERT INTO orders (
             name, phone_number, deskripsi, price, order_date, estimation_date, end_date,
@@ -30,14 +30,20 @@ function createOrder($orderData)
 
     $result = $connection->query($query);
 
-    // Setelah membuat order, tambahkan entri pertama ke orders_progress
-    // Biasanya status awal adalah Pending (ID 2), sesuaikan jika berbeda
-    if ($result) {
-        $order_id = $connection->insert_id; // Ambil ID order yang baru saja di-insert
-        $initialStatusId = 2; // ID untuk status 'Pending'
-        $today = date('Y-m-d');
-        $query_progress_initial = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($order_id, '$today', $initialStatusId)";
-        $connection->query($query_progress_initial);
+    if (!$result) {
+        error_log("SQL Error on createOrder INSERT: " . $connection->error);
+        return false;
+    }
+
+    $order_id = $connection->insert_id;
+    $initialStatusId = 2;
+    $today = date('Y-m-d');
+
+    $query_progress_initial = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($order_id, '$today', $initialStatusId)";
+    $connection->query($query_progress_initial);
+
+    if (!$connection->errno) {
+        $connection->query("UPDATE orders SET updated_at = NOW() WHERE id = $order_id");
     }
 
     return $result;
@@ -45,30 +51,32 @@ function createOrder($orderData)
 
 function updateUserApproval($approvalData)
 {
+    error_log("DEBUG: updateUserApproval function called.");
     $connection = getConnection();
 
     $id = $approvalData["id"];
-    $approvalInput = isset($approvalData["userApproval"]) ? $approvalData["userApproval"] : null;
+    $approvalInput = $approvalData["userApproval"] ?? null;
 
-    // Konversi nilai approval
     if ($approvalInput === "Approve") {
         $approval = 1;
-        $status_id_progress = 1; // ID Status: Approved
+        $status_id_progress = 1;
     } elseif ($approvalInput === "Reject") {
         $approval = 0;
-        $status_id_progress = 6; // ID Status: Rejected
+        $status_id_progress = 6;
     } else {
+        error_log("ERROR: Invalid user approval input: " . htmlspecialchars($approvalInput));
         return false;
     }
 
     $today = date('Y-m-d');
 
-    // Update cust_approve pada tabel orders
-    // Ini akan memicu updated_at di tabel orders jika nilai $approval berubah
     $query1 = "UPDATE orders SET cust_approve = $approval WHERE id = $id";
     $result1 = $connection->query($query1);
+    if (!$result1) {
+        error_log("SQL Error on updateUserApproval (cust_approve) for ID $id: " . $connection->error);
+        return false;
+    }
 
-    // Cek apakah sudah ada progress dengan status dan tanggal yang sama
     $checkQuery = "
         SELECT 1 FROM orders_progress 
         WHERE orders_id = $id 
@@ -78,10 +86,12 @@ function updateUserApproval($approvalData)
     ";
     $checkResult = $connection->query($checkQuery);
 
-    // Jika belum ada, maka insert ke orders_progress
     if ($checkResult && $checkResult->num_rows === 0) {
         $query2 = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($id, '$today', $status_id_progress)";
-        $connection->query($query2); // Trigger database akan memicu updated_at di tabel orders
+        $connection->query($query2);
+        if (!$connection->errno) {
+            $connection->query("UPDATE orders SET updated_at = NOW() WHERE id = $id");
+        }
     }
 
     return $result1;
@@ -89,33 +99,33 @@ function updateUserApproval($approvalData)
 
 function updateOwnerApproval($approvalData)
 {
+    error_log("DEBUG: updateOwnerApproval function called.");
     $connection = getConnection();
 
     $id = $approvalData["id"];
-    $approvalInput = isset($approvalData["ownerApproval"]) ? $approvalData["ownerApproval"] : null;
+    $approvalInput = $approvalData["ownerApproval"] ?? null;
     $price = $approvalData["price"];
     $est_date = $approvalData["estimation"];
 
-    $status_id_progress = null;
     if ($approvalInput === "Approve") {
         $approval = 1;
-        // PENTING: Ketika Owner Approve, statusnya menjadi 'Approved' (ID 1)
         $status_id_progress = 1;
     } elseif ($approvalInput === "Reject") {
         $approval = 0;
-        $status_id_progress = 6; // Status Rejected
+        $status_id_progress = 6;
     } else {
+        error_log("ERROR: Invalid owner approval input: " . htmlspecialchars($approvalInput));
         return false;
     }
 
-    // Update owner_approve, price, estimation_date pada tabel orders
     $query = "UPDATE orders SET owner_approve = $approval, price = $price, estimation_date = '$est_date' WHERE id = $id";
     $result = $connection->query($query);
+    if (!$result) {
+        error_log("SQL Error on updateOwnerApproval (orders) for ID $id: " . $connection->error);
+        return false;
+    }
 
-    // Jika owner approve/reject, masukkan juga ke orders_progress
-    // Ini penting agar status 'Approved' atau 'Rejected' tercatat di history trace
-    // dan memicu updated_at di tabel orders melalui trigger database.
-    if ($status_id_progress !== null) {
+    if (isset($status_id_progress)) {
         $today = date('Y-m-d');
         $checkQuery = "
             SELECT 1 FROM orders_progress 
@@ -128,7 +138,10 @@ function updateOwnerApproval($approvalData)
 
         if ($checkResult && $checkResult->num_rows === 0) {
             $query_progress = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($id, '$today', $status_id_progress)";
-            $connection->query($query_progress); // Trigger database akan memicu updated_at di tabel orders
+            $connection->query($query_progress);
+            if (!$connection->errno) {
+                $connection->query("UPDATE orders SET updated_at = NOW() WHERE id = $id");
+            }
         }
     }
 
@@ -137,31 +150,21 @@ function updateOwnerApproval($approvalData)
 
 function updateStatusStaff($statusData)
 {
+    error_log("DEBUG: updateStatusStaff function called.");
     $connection = getConnection();
 
     $id = $statusData["id"];
-    $statusInput = $statusData['status'] ?? 'pending'; // default ke pending jika kosong
+    $statusInput = strtolower($statusData['status'] ?? 'pending');
     $today = date('Y-m-d');
 
+    $statusMap = [
+        'pending' => 2,
+        'ongoing' => 3,
+        'finishing' => 4,
+        'completed' => 5,
+    ];
+    $statusId = $statusMap[$statusInput] ?? 2;
 
-    switch (strtolower($statusInput)) {
-        case 'pending':
-            $statusId = 2;
-            break;
-        case 'ongoing':
-            $statusId = 3;
-            break;
-        case 'finishing':
-            $statusId = 4;
-            break;
-        case 'completed':
-            $statusId = 5;
-            break;
-        default:
-            $statusId = 2; // fallback default ke 'pending'
-    }
-
-    // Cek apakah sudah ada progress dengan status dan tanggal yang sama
     $checkQuery = "
         SELECT 1 FROM orders_progress 
         WHERE orders_id = $id 
@@ -171,10 +174,12 @@ function updateStatusStaff($statusData)
     ";
     $checkResult = $connection->query($checkQuery);
 
-    // Jika belum ada, maka insert ke orders_progress
     if ($checkResult && $checkResult->num_rows === 0) {
         $query2 = "INSERT INTO orders_progress (orders_id, date, status_id) VALUES ($id, '$today', $statusId)";
-        $connection->query($query2); // Trigger database akan memicu updated_at di tabel orders
+        $connection->query($query2);
+        if (!$connection->errno) {
+            $connection->query("UPDATE orders SET updated_at = NOW() WHERE id = $id");
+        }
     }
 
     return true;
@@ -182,6 +187,7 @@ function updateStatusStaff($statusData)
 
 function createPayment($paymentData)
 {
+    error_log("DEBUG: createPayment function called.");
     $connection = getConnection();
 
     $address = $paymentData["address"];
@@ -195,18 +201,20 @@ function createPayment($paymentData)
     $cvc = $paymentData["cvc"];
     $order_id = $paymentData["id"];
 
-    // Query insert
-    $query = "INSERT INTO payment 
-            (address_line, city, state, postal_code, card_name, card_number, expirity, cvc, payment_method, orders_id)
-        VALUES 
-            ('$address', '$city', '$state', '$postal', '$card_name', '$card_number', '$expirity', '$cvc', '$payment_method', $order_id)
+    $query = "
+        INSERT INTO payment (
+            address_line, city, state, postal_code, card_name, card_number, expirity, cvc, payment_method, orders_id
+        ) VALUES (
+            '$address', '$city', '$state', '$postal', '$card_name', '$card_number', '$expirity', '$cvc', '$payment_method', $order_id
+        )
     ";
 
     $result = $connection->query($query);
 
-    if ($result) {
-        return true;
-    } else {
+    if (!$result) {
+        error_log("SQL Error on createPayment INSERT: " . $connection->error);
         return false;
     }
+
+    return true;
 }
