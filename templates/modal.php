@@ -10,11 +10,11 @@
             <p class="mb-2">Do you agree with the estimated cost?</p>
             <div class="d-flex">
               <div class="form-check form-check-inline me-3"> <input class="form-check-input" type="radio"
-                  name="userApproval" id="approve2" value="Approve">
+                  name="userApproval" id="approve2" value="Approve" required>
                 <label class="form-check-label" for="approve2">Approve</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="userApproval" id="reject2" value="Reject">
+                <input class="form-check-input" type="radio" name="userApproval" id="reject2" value="Reject" required>
                 <label class="form-check-label" for="reject2">Reject</label>
               </div>
             </div>
@@ -43,11 +43,11 @@
               Status</label>
             <div class="col-sm-7">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ownerApproval" id="approve" value="Approve">
+                <input class="form-check-input" type="radio" name="ownerApproval" id="approve" value="Approve" required>
                 <label class="form-check-label" for="approve">Approve</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ownerApproval" id="reject" value="Reject">
+                <input class="form-check-input" type="radio" name="ownerApproval" id="reject" value="Reject" required>
                 <label class="form-check-label" for="reject">Reject</label>
               </div>
             </div>
@@ -56,7 +56,7 @@
           <div class="mb-3 row align-items-center">
             <label for="priceInput" class="col-sm-5 col-form-label row-label">Price</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="priceInput" name="price" placeholder="Enter Price">
+              <input type="text" class="form-control" id="priceInput" name="price" placeholder="Enter Price" required>
             </div>
           </div>
 
@@ -64,7 +64,7 @@
               class="col-sm-5 col-form-label row-label">Estimated Completion Date</label>
             <div class="col-sm-7">
               <input type="date" class="form-control" id="completionDateInput" name="estimation"
-                placeholder="Enter Date">
+                placeholder="Enter Date" required>
             </div>
           </div>
           <input name="id" type="hidden" id="owner-id-input" value="">
@@ -89,7 +89,6 @@
           <div class="mb-3"> <label for="statusSelect" class="form-label visually-hidden">Select a status</label>
             <select class="form-select" id="statusSelect" aria-label="Select a status" name="status" required>
               <option selected disabled hidden value="">Select a status</option>
-              <option value="pending">Pending</option>
               <option value="ongoing">On Going</option>
               <option value="finishing">Finishing</option>
               <!-- muk nambah "shipped" kah mint? -->

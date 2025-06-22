@@ -54,28 +54,29 @@ include __DIR__ . "/../templates/header.php";
               <div class="mb-3 row">
                 <label for="inputName" class="col-sm-3 col-form-label label">Name</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="inputName" name="custName" placeholder="Input Name">
+                  <input type="text" class="form-control" id="inputName" name="custName" placeholder="Input Name"
+                    required>
                 </div>
               </div>
               <div class="mb-3 row">
                 <label for="inputPhone" class="col-sm-3 col-form-label label">Phone Number</label>
                 <div class="col-sm-9">
-                  <input type="number" class="form-control" id="inputPhone" name="phoneNumber"
-                    placeholder="Input Phone Number">
+                  <input type="tel" class="form-control" id="inputPhone" name="phoneNumber"
+                    placeholder="Input Phone Number" required>
                 </div>
               </div>
               <div class="mb-3 row">
                 <label for="inputProjectName" class="col-sm-3 col-form-label label">Project Name</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="inputProjectName" name="projectName"
-                    placeholder="Input Project Name">
+                    placeholder="Input Project Name" required>
                 </div>
               </div>
               <div class="mb-3 row">
                 <label for="inputQuantity" class="col-sm-3 col-form-label label">Quantity</label>
                 <div class="col-sm-9">
                   <input type="number" class="form-control" id="inputQuantity" name="quantity"
-                    placeholder="Input Quantity">
+                    placeholder="Input Quantity" required>
                 </div>
               </div>
               <div class="mb-3 row">
@@ -83,14 +84,14 @@ include __DIR__ . "/../templates/header.php";
                   Address</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="inputShippingAddres" name="shippingAddress"
-                    placeholder="Input Shpping Address">
+                    placeholder="Input Shipping Address" required>
                 </div>
               </div>
               <div class="mb-3 row">
                 <label for="inputDesc" class="col-sm-3 col-form-label label">Desciption</label>
                 <div class="col-sm-9">
-                  <textarea class="form-control" placeholder="Description" id="inputDesc" name="description"
-                    style="height: 100px"></textarea>
+                  <textarea class="form-control" placeholder="Description" id="inputDesc" name="description required"
+                    style="height: 100px" required></textarea>
                 </div>
               </div>
 

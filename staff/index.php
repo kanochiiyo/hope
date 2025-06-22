@@ -21,12 +21,12 @@ $limit_staff_orders = 4;
 $page_staff_orders = isset($_GET['page_staff_orders']) ? (int) $_GET['page_staff_orders'] : 1;
 $page_staff_orders = max(1, $page_staff_orders);
 $offset_staff_orders = ($page_staff_orders - 1) * $limit_staff_orders;
-$total_staff_orders_query = "SELECT COUNT(*) AS total FROM orders WHERE owner_approve IS NOT NULL;";
+$total_staff_orders_query = " SELECT COUNT(o.id) AS total FROM orders o LEFT JOIN (SELECT op.orders_id, s.name FROM orders_progress op JOIN status s ON op.status_id = s.id WHERE (op.orders_id, op.date, op.status_id) IN ( SELECT op2.orders_id, op2.date, MAX(op2.status_id) FROM orders_progress op2 WHERE (op2.date) = ( SELECT MAX(op3.date) FROM orders_progress op3 WHERE op3.orders_id = op2.orders_id) GROUP BY op2.orders_id, op2.date)) AS latest_status ON o.id = latest_status.orders_id WHERE o.owner_approve IS NOT NULL AND latest_status.name NOT IN ('Pending', 'Rejected');";
 $total_staff_orders_result = $connection->query($total_staff_orders_query);
 $total_staff_orders_rows = $total_staff_orders_result->fetch_assoc()['total'];
 $total_staff_orders_pages = calculateTotalPages($total_staff_orders_rows, $limit_staff_orders);
 
-$q = "
+$q = "  
 SELECT o.*, latest_status.name AS status_name
 FROM orders o
 LEFT JOIN (
@@ -44,7 +44,8 @@ LEFT JOIN (
         GROUP BY op2.orders_id, op2.date
     )
 ) AS latest_status ON o.id = latest_status.orders_id
-WHERE o.owner_approve IS NOT NULL
+WHERE o.owner_approve IS NOT NULL 
+AND latest_status.name NOT IN ('Pending', 'Rejected')
 ORDER BY o.order_date DESC, o.id DESC
 LIMIT $limit_staff_orders OFFSET $offset_staff_orders;
 ";
@@ -79,7 +80,8 @@ include __DIR__ . "/../templates/modal.php";
             </thead>
             <tbody>
               <?php if ($orders && $orders->num_rows > 0): ?>
-                <?php while ($row = $orders->fetch_assoc()): ?>
+                <?php while ($row = $orders->fetch_assoc()):
+                  ?>
                   <tr>
                     <td class="text-center"><?= htmlspecialchars($row['id']) ?></td>
                     <td class="text-center"><?= htmlspecialchars($row['cust_name']) ?></td>
@@ -90,7 +92,7 @@ include __DIR__ . "/../templates/modal.php";
                       <?= $row['price'] ? 'Rp ' . number_format($row['price'], 0, ',', '.') : '-' ?>
                     </td>
                     <td class="text-center align-middle">
-                      <p class="status-<?= strtolower(str_replace(' ', '-', $row['status_name'] ?? 'pending')) ?>">
+                      <p class="status-<?= strtolower(str_replace(' ', '', $row['status_name'] ?? 'pending')) ?>">
                         <?= htmlspecialchars($row['status_name'] ?? 'Pending') ?>
                       </p>
                     </td>

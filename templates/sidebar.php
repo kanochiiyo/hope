@@ -1,7 +1,7 @@
 <div class="sidebar col-2" id="sidebar">
     <div class="logo-section">
-        <img src="https://placehold.co/30x30" alt="hope">
-        <span class="fw-bold m-3" style="color: #4318ff">HOPE</span>
+        <img src="../assets/logo.png" alt="hope">
+        <span class="fw-bold m-1" style="color: #4318ff">HOPE</span>
     </div>
 
     <div class="sidebar-list">

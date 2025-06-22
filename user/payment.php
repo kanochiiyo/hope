@@ -60,21 +60,21 @@ include __DIR__ . "/../templates/header.php";
                     <div class="row mb-3">
                         <div class="mb-1 col-6">
                             <label for="address" class="form-label label">Address Line</label>
-                            <input type="text" class="form-control" id="address" name="address">
+                            <input type="text" class="form-control" id="address" name="address" required>
                         </div>
                         <div class="mb-1 col-6">
                             <label for="city" class="form-label label">City</label>
-                            <input type="text" class="form-control" id="city" name="city">
+                            <input type="text" class="form-control" id="city" name="city" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="mb-1 col-6">
                             <label for="state" class="form-label label">State</label>
-                            <input type="text" class="form-control" id="state" name="state">
+                            <input type="text" class="form-control" id="state" name="state" required>
                         </div>
                         <div class="mb-1 col-6">
                             <label for="postal" class="form-label label">Postal Code</label>
-                            <input type="text" class="form-control" id="postal" name="postal">
+                            <input type="number" class="form-control" id="postal" name="postal" required>
                         </div>
                     </div>
                     <h5 class="fw-bold my-3">Payment Method</h5>
@@ -86,21 +86,21 @@ include __DIR__ . "/../templates/header.php";
                     <div class="row mb-3">
                         <div class="mb-1 col-6">
                             <label for="holderName" class="form-label label">Cardholder's Name</label>
-                            <input type="text" class="form-control" id="holderName" name="card_name">
+                            <input type="text" class="form-control" id="holderName" name="card_name" required>
                         </div>
                         <div class="mb-1 col-6">
                             <label for="cardNumber" class="form-label label">Card Number</label>
-                            <input type="text" class="form-control" id="cardNumber" name="card_number">
+                            <input type="number" class="form-control" id="cardNumber" name="card_number" required>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="mb-1 col-6">
                             <label for="expirity" class="form-label label">Expirity</label>
-                            <input type="text" class="form-control" id="expirity" name="expirity">
+                            <input type="number" class="form-control" id="expirity" name="expirity" required>
                         </div>
                         <div class="mb-1 col-6">
                             <label for="cvc" class="form-label label">CVC</label>
-                            <input type="text" class="form-control" id="cvc" name="cvc">
+                            <input type="number" class="form-control" id="cvc" name="cvc" required>
                         </div>
                     </div>
                     <div class="mb-3 row d-flex justify-content-between" style="margin: 0px 1px;">

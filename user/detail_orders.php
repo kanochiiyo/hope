@@ -63,43 +63,40 @@ include __DIR__ . "/../templates/header.php";
                             </div>
                             <table class="table table-borderless">
                             <tbody>
+                                 <tr>
+                                <td class="row-label" style="width: 250px">Customer Name</td>
+                                <td><?= htmlspecialchars($order['cust_name']) ?></td>
+                                </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Project Name</td>
-                                <td>:</td>
                                 <td><?= htmlspecialchars($order['name']) ?></td>
                                 </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Quantity</td>
-                                <td>:</td>
                                 <td><?= htmlspecialchars($order['qty']) ?></td>
                                 </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Order Date</td>
-                                <td>:</td>
                                 <td><?= date('d/m/Y', strtotime($order['order_date'])) ?></td>
                                 </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Est. Completion Date</td>
-                                <td>:</td>
                                 <td>
                                     <?= $order['estimation_date'] ? date('d/m/Y', strtotime($order['estimation_date'])) : '-' ?>
                                 </td>
                                 </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Price</td>
-                                <td>:</td>
                                 <td>
                                     <?= $order['price'] ? 'Rp ' . number_format($order['price'], 0, ',', '.') : '-' ?>
                                 </td>
                                 </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Shipping Address</td>
-                                <td>:</td>
                                 <td><?= htmlspecialchars($order['shipping_address']) ?></td>
                                 </tr>
                                 <tr>
                                 <td class="row-label" style="width: 250px">Description</td>
-                                <td>:</td>
                                 <td><?= nl2br(htmlspecialchars($order['deskripsi'])) ?></td>
                                 </tr>
                             </tbody>
